@@ -1,0 +1,95 @@
+<div class="card">
+    <div class="card-header">
+        Employee Registration form
+    </div>
+    <div class="card-body">
+        <form novalidate (ngSubmit)="save()" [formGroup]="empForm">
+            <div class="form-group row mb-2">
+                <label class="col-md-2 col-form-label" for="firstNameId">First Name</label>
+                <div class="col-md-8">
+                    <input class="form-control" id="firstNameId" type="text" placeholder="First Name (required)"
+                        formControlName="firstName"
+                     />
+                    <span class="invalid-feedback">
+                        <span *ngIf="(empForm.get('firstName').touched || empForm.get('firstName').dirty) && !empForm.get('firstName').valid">
+                            Please enter your first name.
+                        </span>
+                        <span *ngIf="empForm.get('firstName').errors?.minlength">
+                            The first name must be longer than 3 characters.
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-2">
+                <label class="col-md-2 col-form-label" for="lastNameId">Last Name</label>
+                <div class="col-md-8">
+                    <input class="form-control" id="lastNameId" type="text" placeholder="Last Name (required)" required
+                        minlength="3" formControlName="lastName"
+                        [ngClass]="{'is-invalid': (empForm.get('lastName').touched || empForm.get('lastName').dirty) && !empForm.get('lastName').valid }" />
+                    <span class="invalid-feedback">
+                        <span *ngIf="empForm.get('lastName').errors?.required">
+                            Please enter your last name.
+                        </span>
+                        <span *ngIf="empForm.get('lastName').errors?.minlength">
+                            The last name must be longer than 3 characters.
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-2">
+                <label class="col-md-2 col-form-label" for="lastNameId">Gender</label>
+                <div class="col-md-8">
+                    <select class="form-control" id="genderId" formControlName="gender">
+                        <option value="" disabled selected hidden>Select Gender</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+
+                    </select>
+
+                    <span class="invalid-feedback">
+                        <span *ngIf="empForm.get('gender').errors?.required">
+                            Please enter your gender.
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-2">
+                <label class="col-md-2 col-form-label" for="lastNameId">Department</label>
+                <div class="col-md-8">
+                    <select class="form-control" id="departmentId" formControlName="department">
+                        <option value="" disabled selected hidden>Select Department</option>
+                        <option value="HR">HR</option>
+                        <option value="IT">IT</option>
+
+                    </select>
+
+                    <span class="invalid-feedback">
+                        <span *ngIf="empForm.get('gender').errors?.required">
+                            Please enter your gender.
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <!--<input class="form-control" placeholder="yyyy-mm-dd" 
+            formControlName="dob" ngbDatepicker #a="ngbDatepicker">-->
+            <div class="form-group row mb-2">
+                <div class="offset-md-2 col-md-4">
+                    <button class="btn btn-primary mr-3" type="submit" style="width:80px"
+                        [title]="empForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
+                        [disabled]="!empForm.valid">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<br>Dirty: {{ empForm.dirty }}
+<br>Touched: {{ empForm.touched }}
+<br>Valid: {{ empForm.valid }}
+<br>Value: {{ empForm.value | json }}
+<br>{{empForm.get('firstName').errors | json}}
