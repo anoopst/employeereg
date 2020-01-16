@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import {Employee} from '../employee';
+import { Employee } from '../employee';
 import { EmpServiceService } from '../emp-service.service';
+import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-emp-reg',
@@ -13,18 +16,29 @@ export class EmpRegComponent implements OnInit {
   genders: ['male', 'female'];
   empForm: FormGroup;
   employee = new Employee();
-  constructor(private fb: FormBuilder, private empService:EmpServiceService) { }
-
-  ngOnInit() {
-    this.empForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(3)]],
-      lastName: '',
-      gender: ['', [Validators.required]],      
-      department: ['', [Validators.required]]
-    });
-    console.log(this.empForm);
+  constructor(private fb: FormBuilder,
+    private empService: EmpServiceService,
+    private router: Router,
+    dateConfig: NgbDatepickerConfig) {
+    this.configCalDates(dateConfig);
   }
 
+  ngOnInit() {
+    let currentDate = new Date();
+    this.empForm = this.fb.group({
+      firstName: ['', [Validators.required, Validators.minLength(3)]],
+      lastName: ['', [Validators.required, Validators.minLength(3)]],
+      gender: ['', Validators.required],
+      department: ['', Validators.required],
+      dob: [{ 'day': currentDate.getDate(), 'month': 1, 'year': currentDate.getFullYear() - 10 }, Validators.required]
+    });
+  }
+
+  configCalDates(dateConfig: NgbDatepickerConfig) {
+    let currentDate = new Date();
+    dateConfig.minDate = { 'day': 1, 'month': 1, 'year': currentDate.getFullYear() - 60 };
+    dateConfig.maxDate = { 'day': currentDate.getDate(), 'month': 1, 'year': currentDate.getFullYear() - 10 };
+  }
   save() {
     console.log(this.empForm);
     let emp = new Employee();
@@ -32,9 +46,11 @@ export class EmpRegComponent implements OnInit {
     emp.lastName = this.empForm.value.lastName;
     emp.gender = this.empForm.value.gender;
     emp.department = this.empForm.value.department;
-    emp.dob = new Date();
-    
+    let dob = this.empForm.value.dob;
+    emp.dob = dob.day + '-' + dob.month + '-' + dob.year;
+
     this.empService.registerEmployee(emp);
+    this.router.navigate(['/main']);
 
   }
 

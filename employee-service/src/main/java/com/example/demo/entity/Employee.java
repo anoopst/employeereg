@@ -18,31 +18,35 @@ public class Employee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	
+
 	@Column(name = "fname")
 	private String firstName;
-	
+
 	@Column(name = "lname")
 	private String lastName;
-	
+
 	@Column(name = "dob")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Date dob;
-	
+
 	@Column(name = "department")
 	private String department;
+
+	@Column(name = "gender")
+	private String gender;
 
 	public Employee() {
 
 	}
 
-	public Employee(Integer id, String firstName, String lastName, Date dob, String department) {
+	public Employee(Integer id, String firstName, String lastName, Date dob, String department, String gender) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dob = dob;
 		this.department = department;
+		this.gender = gender;
 	}
 
 	public Integer getId() {
@@ -83,6 +87,14 @@ public class Employee {
 
 	public void setDepartment(String department) {
 		this.department = department;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 
 }

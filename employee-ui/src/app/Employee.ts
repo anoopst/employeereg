@@ -5,7 +5,7 @@ export class Employee {
         public firstName = '',
         public lastName = '',
         public gender = '',
-        public dob?: Date,
+        public dob = '',
         public department = '')
     {}
 }
