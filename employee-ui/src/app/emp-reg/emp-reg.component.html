@@ -3,6 +3,10 @@
         Employee Registration form
     </div>
     <div class="card-body">
+        <p *ngIf="alert!= '' && alertType!= ''">
+            <ngb-alert [type]="alertType" (close)="clearAlerts()">{{alert}}</ngb-alert>
+        </p>
+
         <form novalidate (ngSubmit)="save()" [formGroup]="empForm">
             <div class="form-group row mb-2">
                 <label class="col-md-2 col-form-label" for="firstNameId">First Name</label>

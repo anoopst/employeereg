@@ -16,6 +16,8 @@ export class EmpRegComponent implements OnInit {
   genders: ['male', 'female'];
   empForm: FormGroup;
   employee = new Employee();
+  alert: string;
+  alertType: string;
   constructor(private fb: FormBuilder,
     private empService: EmpServiceService,
     private router: Router,
@@ -47,11 +49,35 @@ export class EmpRegComponent implements OnInit {
     emp.gender = this.empForm.value.gender;
     emp.department = this.empForm.value.department;
     let dob = this.empForm.value.dob;
-    emp.dob = dob.day + '-' + dob.month + '-' + dob.year;
+    emp.dob = dob.day + '-' + dob.month + '-' + dob.year;    
+    
+    this.empService.registerEmployee(emp).subscribe({
+      next: successMsg => {
+        console.log(successMsg);
+        this.handleSuccess();
+      },
+      error: errMsg => {
+        console.log(errMsg);
+        this.alertType = 'danger';  
+        this.alert = 'Employee already exists';       
+      }
+    });
+   
+    
 
-    this.empService.registerEmployee(emp);
-    this.router.navigate(['/main']);
+  }
 
+  handleSuccess() {
+    this.alert = 'Employee successfully registered';        
+        this.alertType = 'success';    
+        setTimeout(() => {
+          this.router.navigate(['/main']);
+        }, 2000);
+  }
+
+  clearAlerts() {
+    this.alert= null;
+    this.alertType = null;
   }
 
 }

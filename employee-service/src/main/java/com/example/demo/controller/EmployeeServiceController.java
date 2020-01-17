@@ -13,22 +13,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Employee;
+import com.example.demo.exception.EmployeeException;
 import com.example.demo.service.EmployeeService;
 
 @RestController
 @RequestMapping("/emp")
 @CrossOrigin
-//@Api
 public class EmployeeServiceController {
 	
 	@Autowired
 	EmployeeService employeeService;
 	
 	@PostMapping(value="/register")	
-	public ResponseEntity<Void> registerEmployee(@RequestBody Employee employee) {
-		System.out.println("Register Employee");
-		employeeService.registerEmployee(employee);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+	public ResponseEntity<String> registerEmployee(@RequestBody Employee employee) {
+		try {
+			employeeService.registerEmployee(employee);
+		} catch (EmployeeException e) {
+			return new ResponseEntity<String>("Employee already exists",HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
 	@GetMapping(value="/list")

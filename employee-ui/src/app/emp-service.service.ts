@@ -13,11 +13,8 @@ export class EmpServiceService {
 
   registerEmployee(empData: Employee) {
     console.log("Registering employee" + JSON.stringify(empData));
-    this.http
-    .post('http://localhost:8080/emp/register', empData)
-    .subscribe(responseData => {
-      console.log(responseData);
-    });
+    return this.http
+    .post('http://localhost:8080/emp/register', empData)    
   }
 
   listEmployees() {
