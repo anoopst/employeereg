@@ -3,8 +3,8 @@
     Employees
   </div>
   <div class='card-body'>
-    <div class='table-responsive'>
-      <table class="table table-striped" *ngIf='employees && employees.length'>
+    <div class='table-responsive' *ngIf='employees && employees.length'>
+      <table class="table table-striped" >
         <thead>
           <tr>
             <th>First Name</th>
@@ -28,6 +28,9 @@
         <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize">
         </ngb-pagination>
       </div>
+    </div>
+    <div class='table-responsive' *ngIf='!(employees && employees.length)'>
+      <h3>Employee data not found!!</h3>
     </div>
   </div>
 </div>

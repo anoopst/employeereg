@@ -29,7 +29,7 @@ export class EmpRegComponent implements OnInit {
     let currentDate = new Date();
     this.empForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(3)]],
-      lastName: ['', [Validators.required, Validators.minLength(3)]],
+      lastName: ['', [Validators.required]],
       gender: ['', Validators.required],
       department: ['', Validators.required],
       dob: [{ 'day': currentDate.getDate(), 'month': 1, 'year': currentDate.getFullYear() - 10 }, Validators.required]
